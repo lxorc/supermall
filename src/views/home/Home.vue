@@ -4,8 +4,12 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content">
-
+    <scroll class="content" 
+    ref="scroll" 
+    :probeType="3"
+    :pullUpLoad="true"
+    @scrollPosition="contentScroll"
+    @pullingUp="loadMore">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
@@ -15,10 +19,10 @@
         @tabClick="tabClick"
       ></tab-control>
       <goods-list :goods="showGoods"></goods-list>
-
     </scroll>
 
-    
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
+
   </div>
 </template>
 
@@ -31,8 +35,9 @@ import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
+import BackTop from 'components/content/backTop/BackTop';
 
-import { getHomeMultidata, getHomeGoodsData } from "network/home";
+import {getHomeMultidata, getHomeGoodsData} from "network/home";
 
 export default {
   name: "Home",
@@ -41,11 +46,12 @@ export default {
       banners: [],
       recommends: [],
       goods: {
-        pop: { page: 0, list: [] },
-        new: { page: 0, list: [] },
-        sell: { page: 0, list: [] },
+        pop: {page: 0, list: []},
+        new: {page: 0, list: []},
+        sell: {page: 0, list: []},
       },
       currentType: "pop",
+      isShowBackTop: false
     };
   },
   created() {
@@ -76,6 +82,19 @@ export default {
           break;
       }
     },
+    backClick() {
+      this.$refs.scroll.scrollTo(0,0);
+    },
+    contentScroll(position) {
+      this.isShowBackTop = Math.abs(position.y) > 1000;
+    },
+    loadMore() {
+      this.getHomeGoodsData(this.currentType);
+
+      console.log('...下拉加载更多...');
+
+      this.$refs.scroll.finishPullUpload();
+    },
     /**
      * 网络请求方法
      */
@@ -100,11 +119,11 @@ export default {
     NavBar,
     TabControl,
     GoodsList,
-    GoodsList,
     Scroll,
-    Scroll,
+    BackTop,
   },
-  mounted() {},
+  mounted() {
+  },
   computed: {
     showGoods() {
       return this.goods[this.currentType].list;
@@ -115,10 +134,11 @@ export default {
 
 <style scoped>
 #home {
-  /* padding-top: 48px; */
   height: 100vh;
   position: relative;
+  /* padding-top: 48px; */
 }
+
 .home-nav {
   width: 100%;
   background-color: var(--color-tint);
@@ -141,5 +161,8 @@ export default {
   bottom: 49px;
   left: 0;
   right: 0;
+  /* height: calc(100% - 97px);
+  overflow: hidden;
+  margin-top: 48px; */
 }
 </style>
