@@ -29,7 +29,6 @@ export default {
   },
   mounted() {
   },
-  methods: {},
   components: {
     Swiper,
     SwiperItem
@@ -43,7 +42,7 @@ export default {
     },
     imageLoaded(){
       if (!this.isLoaded) {
-        this.$emit('swiperLoaded');
+        this.$emit('swiperImageLoaded');
         this.isLoaded = true;
       }
     }

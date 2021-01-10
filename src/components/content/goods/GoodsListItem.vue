@@ -5,6 +5,7 @@
         <img
           :src="goodsItem.show.img"
           alt=""
+          @load="imageLoad"
         />
       </a>
     </div>
@@ -36,7 +37,11 @@ export default {
   },
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+    imageLoad() {
+      this.$bus.$emit('itemImageLoad');
+    }
+  },
   components: {},
 };
 </script>
