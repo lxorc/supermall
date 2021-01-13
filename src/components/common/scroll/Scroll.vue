@@ -64,8 +64,8 @@ export default {
       this.scroll && this.scroll.finishPullUp();
     },
     getScrollY() {
-      return this.scroll.y ?  this.scroll.y : 0
-    }
+      return this.scroll.y ? this.scroll.y : 0;
+    },
   },
   components: {},
 };

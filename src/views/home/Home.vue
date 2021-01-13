@@ -4,12 +4,12 @@
       <div slot="center">购物街</div>
     </nav-bar>
     <tab-control
-        :titles="['流行', '新款', '精选']"
-        @tabClick="tabClick"
-        ref="tabControl1"
-        v-show="isTabFixed"
-        class="tab-control"
-      ></tab-control>
+      :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"
+      ref="tabControl1"
+      v-show="isTabFixed"
+      class="tab-control"
+    ></tab-control>
 
     <scroll
       class="content"
@@ -66,7 +66,7 @@ export default {
       isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
-      scrollY: 0
+      scrollY: 0,
     };
   },
   created() {
@@ -161,14 +161,13 @@ export default {
       return this.goods[this.currentType].list;
     },
   },
-  activated () {
-    this.$refs.scroll.scrollTo(0,this.scrollY,0);
-    this.$refs.scroll.refresh();
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.scrollY, 0);
+    this.$refs.scroll.refresh()
   },
-  deactivated () {
+  deactivated() {
     this.scrollY = this.$refs.scroll.getScrollY();
-    
-  }
+  },
 };
 </script>
 
@@ -187,12 +186,12 @@ export default {
 }
 
 .content {
-   position: absolute; 
-  top: 48px; 
+  position: absolute;
+  top: 48px;
   bottom: 49px;
   left: 0;
-  right: 0; 
- /*  height: calc(100% - 97px);
+  right: 0;
+  /*  height: calc(100% - 97px);
   overflow: hidden; */
 }
 

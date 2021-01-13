@@ -1,13 +1,13 @@
 <template>
-  <div class="goods-item">
+  <div class="goods-item" @click="itemClick">
     <div class="item-img">
-      <a :href="goodsItem.link">
+      <!-- <a :href="goodsItem.link"> -->
         <img
-          :src="goodsItem.show.img"
+          :src="showImage"
           alt=""
           @load="imageLoad"
         />
-      </a>
+      <!-- </a> -->
     </div>
     <div class="goods-info">
       <p class="goods-title">{{ goodsItem.title }}</p>
@@ -40,9 +40,17 @@ export default {
   methods: {
     imageLoad() {
       this.$bus.$emit('itemImageLoad');
+    },
+    itemClick() {
+      this.$router.push('/detail/' + this.goodsItem.iid);
     }
   },
   components: {},
+  computed: {
+    showImage() {
+      return  this.goodsItem.image || this.goodsItem.show.img 
+    }
+  }
 };
 </script>
 
