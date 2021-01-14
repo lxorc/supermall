@@ -59,6 +59,7 @@ export default {
 }
 
 .info-desc {
+  float: left;
   margin-top: 10px;
   font-size: 14px;
   color: #666;
@@ -66,16 +67,19 @@ export default {
   padding: 0 15px;
 }
 
+.desc {
+  padding-left: 10px;
+}
+
 .info-desc .start,
 .info-desc .end {
   width: 90px;
   height: 1px;
   background-color: #000;
-  margin: 10px 0;
+  margin: 15px 0;
+  
 }
-.info-desc {
-  float: left;
-}
+
 .info-desc .end {
   float: right;
 }

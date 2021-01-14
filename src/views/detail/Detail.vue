@@ -28,6 +28,7 @@ import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
 
 import { getDetail , Goods, Shop ,GoodsParam, getRecommend} from 'network/detail'
+import { itemImgListener } from 'common/mixin'
 export default {
   name: 'Detail',
   data() {
@@ -39,9 +40,10 @@ export default {
       detailInfo: {},
       paramInfo: {},
       commentInfo: {},
-      recommend: []
+      recommend: [],
     }
   },
+  mixins: [itemImgListener],
   props: {},
   created() {
     // 1. 获取iid
@@ -76,11 +78,16 @@ export default {
     })
 
   },
-  mounted() {},
+  mounted() {
+    
+  },
   methods: {
     imageLoad() {
       this.$refs.scroll.refresh();
     }
+  },
+  destroyed () {
+    this.$bus.$off('itemImageLoad',this.itemImgListener);
   },
   components: {
     DetailNavBar,

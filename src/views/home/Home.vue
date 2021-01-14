@@ -51,6 +51,7 @@ import BackTop from "components/content/backTop/BackTop";
 
 import { getHomeMultidata, getHomeGoodsData } from "network/home";
 import { debounce } from "common/utils";
+import { itemImgListener } from 'common/mixin'
 export default {
   name: "Home",
   data() {
@@ -69,6 +70,7 @@ export default {
       scrollY: 0,
     };
   },
+  mixins: [itemImgListener],
   created() {
     // 请求轮播图推荐等数据
     this.getHomeMultidata();
@@ -81,9 +83,10 @@ export default {
   mounted() {
     // 监听图片加载
     const refresh = debounce(this.$refs.scroll.refresh, 50);
-    this.$bus.$on("itemImageLoad", () => {
+    this.itemImgListener = () => {
       refresh();
-    });
+    }
+    this.$bus.$on("itemImageLoad", this.itemImgListener);
   },
   methods: {
     /**
@@ -166,7 +169,11 @@ export default {
     this.$refs.scroll.refresh()
   },
   deactivated() {
+    // 保存Y值
     this.scrollY = this.$refs.scroll.getScrollY();
+
+    // 2.取消全局事件的监听
+    this.$bus.$off('itemImageLoad',this.itemImgListener);
   },
 };
 </script>
