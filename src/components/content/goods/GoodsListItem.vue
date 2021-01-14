@@ -12,7 +12,7 @@
     <div class="goods-info">
       <p class="goods-title">{{ goodsItem.title }}</p>
       <span class="price">
-        {{ goodsItem.price }}
+        {{ goodsItem.price | showPrice }}
       </span>
       <span class="collect">
         {{ goodsItem.cfav }}
@@ -49,6 +49,11 @@ export default {
   computed: {
     showImage() {
       return  this.goodsItem.image || this.goodsItem.show.img 
+    }
+  },
+  filters: {
+    showPrice(price) {
+      return '￥' + price;
     }
   }
 };

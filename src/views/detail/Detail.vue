@@ -1,17 +1,22 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav"/>
-
-    <scroll class="content" ref="scroll">
-      <detail-swiper :itemImages="itemImages"/>
+    <detail-nav-bar class="detail-nav" 
+                    @itemClick="navClick"
+                    ref="nav"/>
+    <scroll class="content" 
+            ref="scroll"
+            :probe-type="3"
+            @scrollPosition="contentScroll">
+      <detail-swiper :item-images="itemImages"/>
       <detail-base-info :goods="goods"/> 
-      <detail-shop-info :shopInfo="shopInfo"/>
-      <detail-goods-info :detailInfo="detailInfo" @imageLoad="imageLoad"/>
-      <detail-param-info :param-info="paramInfo" />
-      <detail-comment-info :commentInfo="commentInfo" />
-      <goods-list :goods="recommend"/>
+      <detail-shop-info :shop-info="shopInfo"/>
+      <detail-goods-info :detail-info="detailInfo" @imageLoad="imageLoad"/>
+      <detail-param-info :param-info="paramInfo" ref="params"/>
+      <detail-comment-info :comment-info="commentInfo" ref="comment" />
+      <goods-list :goods="recommend" ref="recommend"/>
     </scroll>
     
+    <detail-bottom-bar />
   </div>
 </template>
 
@@ -23,12 +28,14 @@ import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo'
 import DetailParamInfo from './childComps/DetailParamInfo'
 import DetailCommentInfo from './childComps/DetailCommentInfo'
-import GoodsList from 'components/content/goods/GoodsList'
+import DetailBottomBar from './childComps/DetailBottomBar'
 
+import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
 
 import { getDetail , Goods, Shop ,GoodsParam, getRecommend} from 'network/detail'
 import { itemImgListener } from 'common/mixin'
+import { debounce } from 'common/utils'
 export default {
   name: 'Detail',
   data() {
@@ -41,6 +48,9 @@ export default {
       paramInfo: {},
       commentInfo: {},
       recommend: [],
+      themeTopYs: [],
+      getThemeTopY: null,
+      currentIndex: 0
     }
   },
   mixins: [itemImgListener],
@@ -77,6 +87,17 @@ export default {
       this.recommend = res.data.list;
     })
 
+    // 4.获取得到offsetTop的值
+    this.getThemeTopY = debounce(()=>{
+
+      this.themeTopYs.push(0);
+      this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+      this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+      this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+      this.themeTopYs.push(Number.MAX_VALUE);
+
+    },50);
+
   },
   mounted() {
     
@@ -84,6 +105,31 @@ export default {
   methods: {
     imageLoad() {
       this.$refs.scroll.refresh();
+
+      // 获取 各个主体的offsetTop
+      this.getThemeTopY();
+    },
+    navClick(index) {
+      this.$refs.scroll.scrollTo(0,-this.themeTopYs[index],500);
+    },
+    contentScroll(position) {
+      let scrollTop = -position.y;
+      let length = this.themeTopYs.length;
+      // 比较复杂做法:
+      /* for(let i = 0;i < length; i++) {
+        if (this.currentIndex !== i && ((i < length -1 &&  scrollTop >= this.themeTopYs[i] && scrollTop < this.themeTopYs[i+1] )||(i === length -1 && scrollTop >= this.themeTopYs[i] ))) {
+            this.currentIndex = i;
+            this.$refs.nav.currentIndex = this.currentIndex;
+          }
+        }
+       */
+      // 简化 hack 做法: 
+      for(let i = 0;i < length-1; i++) {
+        if (this.currentIndex !== i && i < length -1 &&  scrollTop >= this.themeTopYs[i] && scrollTop < this.themeTopYs[i+1]) {
+          this.currentIndex = i;
+          this.$refs.nav.currentIndex = this.currentIndex;
+        }
+      }
     }
   },
   destroyed () {
@@ -94,11 +140,12 @@ export default {
     DetailSwiper,
     DetailBaseInfo,
     DetailShopInfo,
-    Scroll,
     DetailGoodsInfo,
     DetailParamInfo,
     DetailCommentInfo,
-    GoodsList
+    DetailBottomBar,
+    GoodsList,
+    Scroll,
   },
   computed: {},
 }
@@ -119,7 +166,7 @@ export default {
 }
 
 .content {
-  height: calc(100% - 48px);
+  height: calc(100% - (48px + 49px ) );
 }
 
 </style>

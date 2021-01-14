@@ -10,6 +10,5 @@ export const itemImgListener = {
       refresh();
     }
     this.$bus.$on("itemImageLoad", this.itemImgListener);
-    console.log('我是混入的内容');
   },
 }

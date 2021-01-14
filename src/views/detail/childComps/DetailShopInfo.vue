@@ -21,7 +21,8 @@
       </div>
       <div class="score-item des-right">
         <div  class="des-item" 
-              v-for="item in shopInfo.score">
+              v-for="(item,index) in shopInfo.score"
+              :key="index">
           <span>{{ item.name }}</span>
           <span class="score" :class="{'score-better': item.isBetter}"> {{item.score}} </span>
           <span class="better" :class="{'better-more': item.isBetter}"> {{ item.isBetter ? '高' : '低'}} </span>

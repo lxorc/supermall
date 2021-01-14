@@ -61,9 +61,8 @@ export default {
 <style scoped>
 .detail-comment-info {
   border-top: 4px solid #eee;
-  padding: 0 12px 10px 12px;
-  border-bottom: 2px solid #eee;
-  margin-bottom: 20px;
+  padding: 0 12px 20px 12px;
+  border-bottom: 4px solid #eee;
 }
 
 .user-comment {

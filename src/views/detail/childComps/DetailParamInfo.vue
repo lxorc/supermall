@@ -49,6 +49,14 @@ export default {
   font-size: 13px;
 }
 
+.sizes tr  {
+  display: flex;
+}
+
+.sizes tr td {
+  flex: 1;
+}
+
 table {
   width: 100%;
   border-spacing:0;  

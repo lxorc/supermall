@@ -6,6 +6,7 @@
       </div>
       <div slot="center" class="center">
         <span v-for="(item,index) in titles" 
+              :key="index"
               class="center-item"
               :class="{active: index === currentIndex}"
               @click="itemClick(index)">{{item}}</span>
@@ -30,9 +31,12 @@ export default {
   methods: {
     itemClick(index) {
       this.currentIndex = index;
+      this.$emit('itemClick',index);
     },
-    backClick() {
+    backClick(index) {
+      // 路径的返回
       this.$router.back();
+
     }
   },
   components: {
