@@ -25,9 +25,6 @@ export default {
       currentIndex: 0
     }
   },
-  props: {},
-  created() {},
-  mounted() {},
   methods: {
     itemClick(index) {
       this.currentIndex = index;
@@ -42,7 +39,6 @@ export default {
   components: {
     NavBar
   },
-  computed: {},
 }
 </script>
 

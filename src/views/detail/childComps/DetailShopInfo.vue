@@ -38,9 +38,6 @@
 <script>
 export default {
   name: 'DetailShopInfo',
-  data() {
-    return {}
-  },
   props: {
     shopInfo: {
       type: Object,
@@ -49,11 +46,6 @@ export default {
       }
     }
   },
-  created() {},
-  mounted() {},
-  methods: {},
-  components: {},
-  computed: {},
   filters: {
     showSells(sells) {
       if (sells > 10000) {

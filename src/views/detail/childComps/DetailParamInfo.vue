@@ -22,9 +22,6 @@
 <script>
 export default {
   name: 'DetailParamInfo',
-  data() {
-    return {}
-  },
   props: {
     paramInfo: {
       type: Object,
@@ -33,11 +30,6 @@ export default {
       }
     }
   },
-  created() {},
-  mounted() {},
-  methods: {},
-  components: {},
-  computed: {},
 }
 </script>
 

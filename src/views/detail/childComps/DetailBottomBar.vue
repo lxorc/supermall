@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="bar-right">
-      <div class="cart">
+      <div class="cart" @click="addCart">
         <span>加入购物车</span>
       </div>
       <div class="buy">
@@ -28,21 +28,17 @@
 <script>
 export default {
   name: "DetailBottomBar",
-  data() {
-    return {};
+  methods: {
+    addCart() {
+      this.$emit('addCart')
+    }
   },
-  props: {},
-  created() {},
-  mounted() {},
-  methods: {},
-  components: {},
-  computed: {},
 };
 </script>
 
 <style scoped>
 .bottom-bar {
-  height: 49px;
+  height: 58px;
   background-color: #fff;
   position: relative;
   z-index: 10000;
@@ -57,6 +53,7 @@ export default {
 
 .bar-left {
   display: flex;
+  font-size: 14px;
 }
 
 .bar-left > div {
@@ -68,24 +65,22 @@ export default {
   width: 22px;
   height: 22px;
   background: url("~assets/images/detail/detail_bottom.png") 0 0/100%;
-  /* background-size: 40px; */
-  margin: 4px 0 3px 23px;
+  margin: 0 0 2px 23.2px;
 }
 
 .bar-left > div:nth-child(1) .icon {
-  background-position: 0 96px;
+  background-position: 0 97px;
 }
 
 .bar-left > div:nth-child(2) .icon {
   background-position: 0 52px;
 }
 
-
 .bar-right {
   display: flex;
   width: 100%;
-  height: 49px;
-  line-height: 49px;
+  height: 100%;
+  line-height: 58px;
 }
 
 .bar-right > div {

@@ -16,7 +16,11 @@
       <goods-list :goods="recommend" ref="recommend"/>
     </scroll>
     
-    <detail-bottom-bar />
+    <detail-bottom-bar @addCart="addCart"/>
+    
+    <back-top v-show="isShowBackTop" 
+              @click.native="backClick"
+              class="detail-back-top"/>
   </div>
 </template>
 
@@ -32,9 +36,10 @@ import DetailBottomBar from './childComps/DetailBottomBar'
 
 import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
+import BackTop from 'components/content/backTop/BackTop'
 
 import { getDetail , Goods, Shop ,GoodsParam, getRecommend} from 'network/detail'
-import { itemImgListener } from 'common/mixin'
+import { itemImgListenerMixin, backTopMixin } from 'common/mixin'
 import { debounce } from 'common/utils'
 export default {
   name: 'Detail',
@@ -53,7 +58,7 @@ export default {
       currentIndex: 0
     }
   },
-  mixins: [itemImgListener],
+  mixins: [itemImgListenerMixin, backTopMixin],
   props: {},
   created() {
     // 1. 获取iid
@@ -68,7 +73,6 @@ export default {
 
       // 2.保存产品信息的数据
       this.goods = new Goods(data.itemInfo,data.columns,data.shopInfo.services)
-
       // 3.保存商家的数据信息
       this.shopInfo = new Shop(data.shopInfo);
 
@@ -99,22 +103,22 @@ export default {
     },50);
 
   },
-  mounted() {
-    
-  },
   methods: {
     imageLoad() {
       this.$refs.scroll.refresh();
 
-      // 获取 各个主体的offsetTop
+      // 获取 各个主题的offsetTop
       this.getThemeTopY();
     },
     navClick(index) {
       this.$refs.scroll.scrollTo(0,-this.themeTopYs[index],500);
     },
     contentScroll(position) {
+      // 1.获取scrollTop的值
       let scrollTop = -position.y;
       let length = this.themeTopYs.length;
+
+      // 2.navbar和内容的联合效果
       // 比较复杂做法:
       /* for(let i = 0;i < length; i++) {
         if (this.currentIndex !== i && ((i < length -1 &&  scrollTop >= this.themeTopYs[i] && scrollTop < this.themeTopYs[i+1] )||(i === length -1 && scrollTop >= this.themeTopYs[i] ))) {
@@ -130,6 +134,22 @@ export default {
           this.$refs.nav.currentIndex = this.currentIndex;
         }
       }
+
+      // 3.backTop是否显示
+      this.backTopShowListener(position);
+    },
+    // 加入购物车
+    addCart() {
+      // 获取商品的信息
+      const goodsInfo = {};
+      goodsInfo.iid = this.iid;
+      goodsInfo.image = this.itemImages[0];
+      goodsInfo.desc = this.goods.desc;
+      goodsInfo.title = this.goods.title;
+      goodsInfo.price = this.goods.realPrice;
+
+      // this.$store.commit('addCart',goodsInfo);
+      this.$store.dispatch('addCart',goodsInfo)
     }
   },
   destroyed () {
@@ -146,8 +166,8 @@ export default {
     DetailBottomBar,
     GoodsList,
     Scroll,
+    BackTop
   },
-  computed: {},
 }
 </script>
 
@@ -166,7 +186,12 @@ export default {
 }
 
 .content {
-  height: calc(100% - (48px + 49px ) );
+  height: calc(100% - (48px + 58px ));
+}
+
+.detail-back-top {
+  bottom: 60px;
+  right: 5px;
 }
 
 </style>

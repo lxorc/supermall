@@ -1,7 +1,11 @@
 import { debounce } from './utils'
-export const itemImgListener = {
+import { BACK_POSITION } from './const'
+
+export const itemImgListenerMixin = {
   data() {
-    itemImgListener: null
+    return {
+      itemImgListener: null
+    }
   },
   mounted() {
     // 监听图片加载
@@ -11,4 +15,20 @@ export const itemImgListener = {
     }
     this.$bus.$on("itemImageLoad", this.itemImgListener);
   },
+}
+
+export const backTopMixin = {
+  data() {
+    return {
+      isShowBackTop: false
+    }
+  },
+  methods: {
+    backClick() {
+      this.$refs.scroll.scrollTo(0, 0);
+    },
+    backTopShowListener(position) {
+      this.isShowBackTop = Math.abs(position.y) > BACK_POSITION;
+    }
+  }
 }

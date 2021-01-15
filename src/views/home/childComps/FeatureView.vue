@@ -12,11 +12,6 @@ export default {
   data() {
     return {}
   },
-  props: {},
-  created() {},
-  mounted() {},
-  methods: {},
-  components: {}
 }
 </script>
 

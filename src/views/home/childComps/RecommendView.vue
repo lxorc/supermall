@@ -1,6 +1,6 @@
 <template>
   <div class="recommend">
-    <div v-for="(item,index) in recommends" class="item">
+    <div v-for="(item,index) in recommends" class="item" :key="index">
       <a :href="item.link">
         <img :src="item.image" alt="">
       <p>{{item.title}}</p>
@@ -22,10 +22,6 @@ export default {
       }
     }
   },
-  created() {},
-  mounted() {},
-  methods: {},
-  components: {}
 }
 </script>
 

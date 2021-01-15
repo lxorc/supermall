@@ -50,8 +50,9 @@ import Scroll from "components/common/scroll/Scroll";
 import BackTop from "components/content/backTop/BackTop";
 
 import { getHomeMultidata, getHomeGoodsData } from "network/home";
+import { BACK_POSITION } from 'common/const'
 import { debounce } from "common/utils";
-import { itemImgListener } from 'common/mixin'
+import { itemImgListenerMixin, backTopMixin } from 'common/mixin'
 export default {
   name: "Home",
   data() {
@@ -64,13 +65,13 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      isShowBackTop: false,
+      // isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
       scrollY: 0,
     };
   },
-  mixins: [itemImgListener],
+  mixins: [itemImgListenerMixin,backTopMixin],
   created() {
     // 请求轮播图推荐等数据
     this.getHomeMultidata();
@@ -108,14 +109,11 @@ export default {
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
     },
-    backClick() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
     // 监听滚动位置
     contentScroll(position) {
       // 判断tabControl是否显示
-      this.isShowBackTop = Math.abs(position.y) > 1000;
-
+      /* this.isShowBackTop = Math.abs(position.y) > BACK_POSITION; */
+      this.backTopShowListener(position);
       // 2.决定tabControl是否吸顶
       // this.isTabFixed = Math.abs(position.y) > this.tabOffsetTop - 48;
       this.isTabFixed = Math.abs(position.y) > this.tabOffsetTop;

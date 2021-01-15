@@ -27,7 +27,6 @@ export default {
   data() {
     return {
       counter: 0,
-
     }
   },
   props: {
@@ -38,8 +37,6 @@ export default {
       }
     }
   },
-  created() {},
-  mounted() {},
   methods: {
     imageLoad(list) {
       if ( ++ this.counter === list.length) {
@@ -47,8 +44,6 @@ export default {
       }
     }
   },
-  components: {},
-  computed: {},
 }
 </script>
 

@@ -2,8 +2,8 @@
   <div  v-if="Object.keys(goods).length !== 0" class="detail-base-info" >
     <div class="info-title"> {{ goods.title }} </div>
     <div class="info-price">
-      <span class="newPrice"> {{ goods.newPrice }} </span>
-      <span calss="oldPrice"> <del>{{ goods.oldPrice }}</del> </span>
+      <span class="newPrice"> {{ goods.realPrice | showPrice}} </span>
+      <span calss="oldPrice"> <del>{{ goods.oldPrice  }}</del> </span>
       <span class="discount" v-if="goods.discount"> {{ goods.discount }} </span>
     </div>
     <div class="info-other">
@@ -23,9 +23,6 @@
 <script>
 export default {
   name: 'DetailBaseInfo',
-  data() {
-    return {}
-  },
   props: {
     goods: {
       type: Object,
@@ -34,11 +31,11 @@ export default {
       }
     }
   },
-  created() {},
-  mounted() {},
-  methods: {},
-  components: {},
-  computed: {},
+  filters: {
+    showPrice(price) {
+      return '￥' + price;
+    }
+  }
 }
 </script>
 

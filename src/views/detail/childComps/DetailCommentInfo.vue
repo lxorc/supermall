@@ -33,9 +33,6 @@
 import {formatDate} from 'common/utils'
 export default {
   name: 'DetailCommentInfo',
-  data() {
-    return {}
-  },
   props: {
     commentInfo: {
       type: Object,
@@ -44,11 +41,6 @@ export default {
       }
     }
   },
-  created() {},
-  mounted() {},
-  methods: {},
-  components: {},
-  computed: {},
   filters: {
     createdTime(time) {
       let date = new Date(time * 1000);

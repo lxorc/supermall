@@ -25,10 +25,6 @@ export default {
       isLoaded: false
     }
   },
-  created() {
-  },
-  mounted() {
-  },
   components: {
     Swiper,
     SwiperItem
