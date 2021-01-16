@@ -3,7 +3,7 @@
     <div class="item-img">
       <!-- <a :href="goodsItem.link"> -->
         <img
-          :src="showImage"
+          v-lazy="showImage"
           alt=""
           @load="imageLoad"
         />

@@ -59,7 +59,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 15px 0 12px 13px;
+  padding: 15px 0 12px 50px;
   border-bottom: 3px solid #eee;
 }
 
@@ -72,7 +72,7 @@ export default {
   border-radius: 5px;
 }
 .product-info {
-  padding: 0 35px 0 12px;
+  padding: 0 60px 0 12px;
   width: 310px;
 }
 .product-info .title {
