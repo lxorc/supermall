@@ -38,13 +38,13 @@ export default {
 
 <style scoped>
 .bottom-bar {
+  display: flex;
   height: 58px;
   background-color: #fff;
-  position: relative;
-  z-index: 10000;
-  display: flex;
   align-items: center;
   text-align: center;
+  position: relative;
+  z-index: 10000;
 }
 
 .bottom-bar > div {

@@ -6,13 +6,7 @@
 
 <script>
 export default {
-  data() {
-    return {}
-  },
-  created() {},
-  mounted() {},
-  methods: {},
-  components: {}
+  name: 'category'
 }
 </script>
 
